@@ -2279,41 +2279,92 @@ def _save_trajectory_3d_plot(out_dir: Path, steps: List[Dict[str, Any]]) -> None
 
     figure = plt.figure(figsize=(9, 7))
     axes = figure.add_subplot(111, projection="3d")
+    trajectory_linewidth = 2.0
+    start_labeled = False
+    end_labeled = False
+
+    def plot_trajectory(
+        points: np.ndarray,
+        *,
+        label: str,
+        color: Optional[str] = None,
+        linestyle: str = "-",
+    ) -> None:
+        nonlocal start_labeled, end_labeled
+        if len(points) == 0:
+            return
+        line = axes.plot(
+            points[:, 0],
+            points[:, 1],
+            points[:, 2],
+            color=color,
+            linestyle=linestyle,
+            linewidth=trajectory_linewidth,
+            label=label,
+        )[0]
+        line_color = line.get_color()
+        axes.scatter(
+            points[0, 0],
+            points[0, 1],
+            points[0, 2],
+            color=line_color,
+            marker="o",
+            s=25,
+            label="Start" if not start_labeled else "_nolegend_",
+        )
+        axes.scatter(
+            points[-1, 0],
+            points[-1, 1],
+            points[-1, 2],
+            color=line_color,
+            marker="x",
+            s=35,
+            label="End" if not end_labeled else "_nolegend_",
+        )
+        start_labeled = True
+        end_labeled = True
+
     if len(uav_xyz) > 0:
-        axes.plot(
-            uav_xyz[:, 0], uav_xyz[:, 1], uav_xyz[:, 2],
-            color="tab:blue", linewidth=2.0, label="uav",
-        )
-        axes.scatter(
-            uav_xyz[0, 0], uav_xyz[0, 1], uav_xyz[0, 2],
-            color="tab:blue", marker="o", s=25, label="uav_start",
-        )
-        axes.scatter(
-            uav_xyz[-1, 0], uav_xyz[-1, 1], uav_xyz[-1, 2],
-            color="tab:blue", marker="x", s=35, label="uav_end",
-        )
+        plot_trajectory(uav_xyz, label="UAV", color="tab:blue")
     if len(target_xyz) > 0:
-        axes.plot(
-            target_xyz[:, 0], target_xyz[:, 1], target_xyz[:, 2],
-            color="tab:red", linestyle="--", linewidth=2.0, label="target",
-        )
-    for jammer_id, points in sorted(jammer_series.items()):
+        plot_trajectory(target_xyz, label="Target", color="tab:red")
+    jammer_colors = (
+        "tab:green",
+        "tab:orange",
+        "tab:purple",
+        "tab:brown",
+        "tab:pink",
+        "tab:olive",
+        "tab:cyan",
+        "tab:gray",
+    )
+    for index, (jammer_id, points) in enumerate(sorted(jammer_series.items())):
         array = np.asarray(points, dtype=np.float32)
-        if len(array) > 0:
-            axes.plot(
-                array[:, 0], array[:, 1], array[:, 2],
-                linewidth=1.2, alpha=0.85, label=f"jammer_{jammer_id}",
-            )
+        plot_trajectory(
+            array,
+            label=f"Jammer_{jammer_id}",
+            color=jammer_colors[index % len(jammer_colors)],
+            linestyle="--",
+        )
 
     axes.set_xlabel("x (m)")
     axes.set_ylabel("y (m)")
     axes.set_zlabel("z (m, up)")
-    axes.set_title("Online Eval 3D Trajectory")
-    handles, _ = axes.get_legend_handles_labels()
+    handles, labels = axes.get_legend_handles_labels()
     try:
         if not handles:
             raise ValueError("no labeled trajectories")
-        axes.legend(loc="best", fontsize=8)
+        legend_priority = {"Start": 0, "End": 1}
+        legend_entries = sorted(
+            zip(handles, labels),
+            key=lambda entry: legend_priority.get(entry[1], 2),
+        )
+        axes.legend(
+            [entry[0] for entry in legend_entries],
+            [entry[1] for entry in legend_entries],
+            loc="best",
+            fontsize=12,
+        )
     except (AttributeError, ValueError):
         pass
     axes.grid(True, alpha=0.3)
