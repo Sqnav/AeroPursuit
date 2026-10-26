@@ -2,19 +2,35 @@
 
 ## Dataset
 
-**ScienceDB dataset DOI:** [10.57760/sciencedb.0160i](https://doi.org/10.57760/sciencedb.0160i)
+**Dataset and downloads:** [AeroPursuit on ScienceDB](https://www.scidb.cn/detail?dataSetId=89f842df345a49dba66246c601031b7b)
 
-> **Release status — 2026-10-17:** The dataset files have been uploaded to
-> ScienceDB, but the dataset record is still a draft. The DOI above is reserved
-> and has **not yet been registered**, so it is not currently a public download
-> link. Public access is pending review and publication on ScienceDB.
+**Persistent identifier:** [10.57760/sciencedb.0160i](https://doi.org/10.57760/sciencedb.0160i)
 
-The upload contains 269 independent TAR archives (approximately 507.27 GB),
-plus `README.txt`, `SHA256SUMS`, and `MD5SUMS`. The archives cover 30 city
-directories and 15,000 trajectory directories, including RGB images and JSON
-annotations. Each TAR can be extracted independently; extract the required
-archives into the same directory to restore the dataset folder structure.
+Version 1 was published on ScienceDB on **2026-10-23**. Its published,
+open-access status was verified on **2026-10-26**.
+
+**Author:** Shaoqiang Yan, Tsinghua University.  
+**License:** [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+
+The release contains 269 independent TAR archives totaling 507,266,805,760 bytes
+(approximately **507.27 GB / 472.43 GiB**), plus `README.txt`, `SHA256SUMS`, and
+`MD5SUMS` — 272 files in total. The archives cover 30 city directories and
+15,000 trajectory directories, including RGB images and JSON annotations.
+Each TAR can be extracted independently; extract the required archives into
+the same directory to restore the dataset folder structure.
 
 Use the supplied SHA-256 checksum manifest to verify downloaded archives before
-extraction. Private preview/download links and FTP credentials are not included
-in this repository.
+extraction. See the ScienceDB dataset page for file access and release details.
+
+## Citation
+
+```bibtex
+@misc{yan2026aeropursuit,
+  author = {Yan, Shaoqiang},
+  title = {AeroPursuit},
+  year = {2026},
+  publisher = {ScienceDB},
+  doi = {10.57760/sciencedb.0160i},
+  url = {https://www.scidb.cn/detail?dataSetId=89f842df345a49dba66246c601031b7b}
+}
+```
