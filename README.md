@@ -1,5 +1,13 @@
 # AeroPursuit
 
+## Simulation platform
+
+**Platform download:** [Low-Altitude-Hunter environment on Hugging Face](https://huggingface.co/datasets/shaoqiang668/low-altitude-hunter-env)
+
+The simulation platform is distributed separately from the AeroPursuit dataset.
+See the [Low-Altitude-Hunter resource page](https://github.com/Sqnav/Low-Altitude-Hunter)
+for platform resources and its Hugging Face page for available files and usage information.
+
 ## Dataset
 
 **Dataset and downloads:** [AeroPursuit on ScienceDB](https://www.scidb.cn/detail?dataSetId=89f842df345a49dba66246c601031b7b)
